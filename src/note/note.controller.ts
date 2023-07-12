@@ -5,11 +5,13 @@ export class NoteController {
 	constructor(private readonly noteService: NoteService) {}
 	async create(req: Request, res: Response) {
 		try {
+			const file = req.file;
 			const note = req.body as { title: string; description: string };
 			const id = +res.locals.user.id;
 			const newNote = await this.noteService.create({
 				...note,
 				userId: id,
+				imagePath: file?.path,
 			});
 
 			res.send({
@@ -61,12 +63,15 @@ export class NoteController {
 	}
 	async update(req: Request, res: Response) {
 		try {
+			const { noteId } = req.params;
 			const note = req.body as {
 				title: string;
 				description: string;
-				id: number;
 			};
-			const newNote = await this.noteService.update(note);
+			const newNote = await this.noteService.update({
+				...note,
+				id: +noteId,
+			});
 
 			res.send({
 				message: "Note Updated",

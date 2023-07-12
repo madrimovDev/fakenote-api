@@ -2,12 +2,18 @@ import { Note, PrismaClient } from "@prisma/client";
 
 export class NoteService {
 	constructor(private readonly prisma: PrismaClient) {}
-	async create(note: Omit<Note, "id">) {
+	async create(note: {
+		title: string;
+		description: string;
+		userId: number;
+		imagePath?: string;
+	}) {
 		const newNote = await this.prisma.note.create({
 			data: {
 				title: note.title,
 				description: note.description,
 				userId: note.userId,
+				coverImage: note.imagePath 
 			},
 		});
 		return newNote;
@@ -28,7 +34,7 @@ export class NoteService {
 		});
 		return note;
 	}
-	async update(note: Omit<Note, "userId">) {
+	async update(note: { title: string; description: string; id: number }) {
 		const updatedNote = await this.prisma.note.update({
 			where: {
 				id: note.id,

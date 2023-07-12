@@ -4,6 +4,7 @@ import prisma from "../prisma";
 import { NoteController } from "./note.controller";
 import { bodyValidate } from "../common/body-validate.middleware";
 import noteModel from "./note.model";
+import { upload } from "../common/filte-upload.middleware";
 
 const service = new NoteService(prisma);
 const controller = new NoteController(service);
@@ -12,6 +13,7 @@ const router = Router();
 
 router.post(
 	"/",
+	upload.single('img'),
 	bodyValidate(noteModel.noteScheme),
 	controller.create.bind(controller)
 );
