@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { AuthService } from "./auth.service";
+import createError from 'http-errors'
 
 const SUPERVISOR_SECRET_WORD = process.env.SUPERVISOR_SECRET_WORD;
 

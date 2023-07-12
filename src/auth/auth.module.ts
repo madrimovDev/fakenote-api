@@ -25,9 +25,5 @@ router.post(
 );
 router.get("/verify", controller.verifyByAccess.bind(controller));
 router.get("/refresh", controller.refreshAccess.bind(controller));
-router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-
-})
 
 export default router;
-
