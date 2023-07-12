@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import prisma from "../prisma";
 import { AuthService } from "./auth.service";
 import { AuthController } from "./auth.controller";
@@ -25,6 +25,9 @@ router.post(
 );
 router.get("/verify", controller.verifyByAccess.bind(controller));
 router.get("/refresh", controller.refreshAccess.bind(controller));
+router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+
+})
 
 export default router;
 

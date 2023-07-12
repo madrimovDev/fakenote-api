@@ -42,7 +42,6 @@ export class AuthController {
 				refreshToken,
 			});
 		} catch (e) {
-			console.log(e);
 			if (e instanceof Error) {
 				res.status(401).send({
 					message: "Unauthorized",

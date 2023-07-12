@@ -15,7 +15,9 @@ export function bodyValidate(scheme: Joi.Schema): MiddlewareFunction {
 				message: error.name,
 				error: error.message,
 			});
+			return;
 		}
 		next();
 	};
 }
+
