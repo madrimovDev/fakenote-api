@@ -11,15 +11,16 @@ datasource db {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
+  id         Int          @id @default(autoincrement())
   name       String
   surname    String
   email      String
-  username   String   @unique
+  username   String       @unique
   password   String
-  supervisor Boolean  @default(false)
+  supervisor Boolean      @default(false)
   notes      Note[]
   Profile    Profile?
+  Collection Collection[]
 }
 
 model Note {
@@ -36,10 +37,14 @@ model Note {
 }
 
 model Collection {
-  id    Int    @id @default(autoincrement())
-  name  String
-  color String
-  notes Note[]
+  id         Int      @id @default(autoincrement())
+  name       String
+  color      String
+  notes      Note[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
 }
 
 model Profile {
