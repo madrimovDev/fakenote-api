@@ -13,7 +13,29 @@ export class NoteService {
 				title: note.title,
 				description: note.description,
 				userId: note.userId,
-				coverImage: note.imagePath 
+				coverImage: note.imagePath,
+			},
+		});
+		return newNote;
+	}
+	async createInCollection(note: {
+		collectionId: number;
+		title: string;
+		description: string;
+		userId: number;
+		imagePath?: string;
+	}) {
+		const newNote = await this.prisma.note.create({
+			data: {
+				...note,
+			},
+		});
+		return newNote;
+	}
+	async getAllInCollection(collectionId: number) {
+		const newNote = await this.prisma.note.findMany({
+			where: {
+				collectionId,
 			},
 		});
 		return newNote;
@@ -34,7 +56,12 @@ export class NoteService {
 		});
 		return note;
 	}
-	async update(note: { title: string; description: string; id: number }) {
+	async update(note: {
+		title: string;
+		description: string;
+		id: number;
+		imagePath?: string;
+	}) {
 		const updatedNote = await this.prisma.note.update({
 			where: {
 				id: note.id,

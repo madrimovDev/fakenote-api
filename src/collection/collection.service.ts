@@ -11,24 +11,16 @@ export class CollectionService {
 		});
 		return collections;
 	}
-	async getAllNotesByCollection(id: number) {
-		const notes = await this.prisma.collection.findMany({
-			where: {
-				id,
-			},
-			select: {
-				notes: true,
-			},
-		});
-
-		return notes;
-	}
 	async createCollection(userId: number, color: string, name: string) {
 		const collection = await this.prisma.collection.create({
 			data: {
 				name,
 				color,
-				userId,
+				user: {
+					connect: {
+						id: userId,
+					},
+				},
 			},
 		});
 		return collection;

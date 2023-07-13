@@ -2,7 +2,7 @@ import { Router } from "express";
 import { ProfileService } from "./profile.service";
 import prisma from "../prisma";
 import { ProfileController } from "./profile.controller";
-import { upload } from "../common/filte-upload.middleware";
+import { upload } from "../common/file-upload.middleware";
 
 const service = new ProfileService(prisma);
 const controller = new ProfileController(service);

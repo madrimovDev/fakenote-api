@@ -68,8 +68,10 @@ export class NoteController {
 				title: string;
 				description: string;
 			};
+			const file = req.file;
 			const newNote = await this.noteService.update({
 				...note,
+				imagePath: file?.path,
 				id: +noteId,
 			});
 
