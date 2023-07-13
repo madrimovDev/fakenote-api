@@ -11,23 +11,40 @@ datasource db {
 }
 
 model User {
-  id         Int     @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   name       String
   surname    String
   email      String
-  username   String  @unique
+  username   String   @unique
   password   String
-  supervisor Boolean @default(false)
+  supervisor Boolean  @default(false)
   notes      Note[]
+  Profile    Profile?
 }
 
 model Note {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String
-  user        User     @relation(fields: [userId], references: [id])
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
-  coverImage  String   @default("")
-  userId      Int
+  id           Int         @id @default(autoincrement())
+  title        String
+  description  String
+  user         User        @relation(fields: [userId], references: [id])
+  created_at   DateTime    @default(now())
+  updated_at   DateTime    @updatedAt
+  coverImage   String      @default("")
+  userId       Int
+  Collection   Collection? @relation(fields: [collectionId], references: [id])
+  collectionId Int?
+}
+
+model Collection {
+  id    Int    @id @default(autoincrement())
+  name  String
+  color String
+  notes Note[]
+}
+
+model Profile {
+  id     Int     @id @default(autoincrement())
+  user   User    @relation(fields: [userId], references: [id])
+  image  String?
+  userId Int     @unique
 }
