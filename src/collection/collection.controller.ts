@@ -51,10 +51,10 @@ export class CollectionController {
 	}
 	async update(req: Request, res: Response) {
 		try {
-			const { user } = res.locals;
+			const { collectionId } = req.params;
 			const { name, color } = req.body;
 			const collection = await this.collectionService.updateCollection(
-				user.id,
+				+collectionId,
 				color,
 				name
 			);

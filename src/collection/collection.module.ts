@@ -23,10 +23,11 @@ router.post(
 	controller.create.bind(controller)
 );
 router.put(
-	"/",
+	"/:collectionId",
 	bodyValidate(collectionScheme),
 	controller.update.bind(controller)
 );
+router.delete("/:collectionId", controller.remove.bind(controller));
 
 router.get("/:collectionId", controller.getAllNotes.bind(controller));
 router.post(
