@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-class ProfileService {
+export class ProfileService {
 	constructor(private readonly prisma: PrismaClient) {}
 
 	async createProfile(userId: number) {
@@ -8,7 +8,17 @@ class ProfileService {
 			data: {
 				userId: userId,
 			},
-			include: { user: true },
+			include: {
+				user: {
+					select: {
+						id: true,
+						name: true,
+						email: true,
+						surname: true,
+						username: true,
+					},
+				},
+			},
 		});
 		return profile;
 	}
@@ -19,7 +29,15 @@ class ProfileService {
 				userId: userId,
 			},
 			include: {
-				user: true,
+				user: {
+					select: {
+						id: true,
+						name: true,
+						email: true,
+						surname: true,
+						username: true,
+					},
+				},
 			},
 		});
 		return profile;
@@ -33,7 +51,9 @@ class ProfileService {
 			data: {
 				image,
 			},
-			include: { user: true },
+			select: {
+				image: true,
+			},
 		});
 		return profile;
 	}
