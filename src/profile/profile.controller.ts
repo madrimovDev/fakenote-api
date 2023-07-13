@@ -29,7 +29,7 @@ export class ProfileController {
 	}
 	async createProfile(req: Request, res: Response) {
 		try {
-			const { userId } = req.params;
+      const { userId } = req.params;
 			const profile = await this.profileService.createProfile(+userId);
 
 			res.send({

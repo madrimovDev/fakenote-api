@@ -4,6 +4,12 @@ export class ProfileService {
 	constructor(private readonly prisma: PrismaClient) {}
 
 	async createProfile(userId: number) {
+		const foundedProfile = await this.prisma.profile.findUnique({
+			where: { userId },
+		});
+		if (foundedProfile) {
+			throw new Error("Profile already created");
+		}
 		const profile = await this.prisma.profile.create({
 			data: {
 				userId: userId,
