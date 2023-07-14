@@ -13,4 +13,3 @@ router.use("/profile", authVerify, asyncHandler(profileModule));
 router.use("/collection", authVerify, asyncHandler(collectionModule));
 
 export default router;
-
