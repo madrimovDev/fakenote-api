@@ -4,7 +4,9 @@
 	"main": "index.js",
 	"license": "MIT",
 	"scripts": {
-		"dev": "nodemon ./src/index.ts"
+		"dev": "nodemon ./src/index.ts",
+		"build": "npx tsc",
+		"start": "node ./dist/index.ts"
 	},
 	"devDependencies": {
 		"@types/bcrypt": "^5.0.0",
@@ -35,3 +37,4 @@
 		"uuid": "^9.0.0"
 	}
 }
+
