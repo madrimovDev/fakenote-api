@@ -1,14 +1,16 @@
 import { Request, Response } from "express";
 import { CollectionService } from "./collection.service";
-import { log } from "console";
 import { NoteService } from "../note/note.service";
+import { Controller } from "../common/common.service";
 
-export class CollectionController {
+export class CollectionController extends Controller {
 	constructor(
 		private readonly collectionService: CollectionService,
 		private readonly noteService: NoteService
-	) {}
-	async getAll(req: Request, res: Response) {
+	) {
+		super();
+	}
+	async getAll(_: Request, res: Response) {
 		try {
 			const { user } = res.locals;
 			const collections = await this.collectionService.getAllCollection(
@@ -19,12 +21,7 @@ export class CollectionController {
 				collections,
 			});
 		} catch (e) {
-			if (e instanceof Error) {
-				res.status(400).send({
-					message: "Bad Request",
-					error: e.message,
-				});
-			}
+			this.handleError(404, "Collections Not Found", res);
 		}
 	}
 	async create(req: Request, res: Response) {
@@ -41,12 +38,7 @@ export class CollectionController {
 				collection,
 			});
 		} catch (e) {
-			if (e instanceof Error) {
-				res.status(400).send({
-					message: "Bad Request",
-					error: e.message,
-				});
-			}
+			this.handleError(500, "Failed to Create Collection", res);
 		}
 	}
 	async update(req: Request, res: Response) {
@@ -64,12 +56,7 @@ export class CollectionController {
 				collection,
 			});
 		} catch (e) {
-			if (e instanceof Error) {
-				res.status(400).send({
-					message: "Bad Request",
-					error: e.message,
-				});
-			}
+			this.handleError(500, "Failed to Update Collection", res);
 		}
 	}
 	async remove(req: Request, res: Response) {
@@ -83,30 +70,19 @@ export class CollectionController {
 				collection,
 			});
 		} catch (e) {
-			if (e instanceof Error) {
-				res.status(400).send({
-					message: "Bad Request",
-					error: e.message,
-				});
-			}
+			this.handleError(500, "Failed to Delete Collection", res);
 		}
 	}
 	async getAllNotes(req: Request, res: Response) {
 		try {
 			const { collectionId } = req.params;
-
 			const notes = await this.noteService.getAllInCollection(+collectionId);
 			res.send({
 				message: "All Notes in Collection",
 				notes,
 			});
 		} catch (e) {
-			if (e instanceof Error) {
-				res.status(400).send({
-					message: "Bad Request",
-					error: e.message,
-				});
-			}
+			this.handleError(404, "Notes not found!", res);
 		}
 	}
 	async createNote(req: Request, res: Response) {
@@ -128,13 +104,10 @@ export class CollectionController {
 				note,
 			});
 		} catch (e) {
-			if (e instanceof Error) {
-				res.status(400).send({
-					message: "Bad Request",
-					error: e.message,
-				});
-			}
+			this.handleError(500, "Failed to Create Collection", res);
 		}
 	}
 }
+
+
 

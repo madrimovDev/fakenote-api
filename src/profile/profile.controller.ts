@@ -1,13 +1,15 @@
 import { Request, Response } from "express";
 import { ProfileService } from "./profile.service";
+import { Controller } from "../common/common.service";
 
-export class ProfileController {
-	constructor(private readonly profileService: ProfileService) {}
+export class ProfileController extends Controller {
+	constructor(private readonly profileService: ProfileService) {
+		super();
+	}
 
 	async getProfile(req: Request, res: Response) {
 		try {
 			const { userId } = req.params;
-
 			const profile = await this.profileService.getProfile(+userId);
 
 			if (!profile) {
@@ -19,17 +21,12 @@ export class ProfileController {
 				profile,
 			});
 		} catch (e) {
-			if (e instanceof Error) {
-				res.status(403).send({
-					message: "Forbidden",
-					error: e.message,
-				});
-			}
+			this.handleError(404, "Profile not found", res);
 		}
 	}
 	async createProfile(req: Request, res: Response) {
 		try {
-      const { userId } = req.params;
+			const { userId } = req.params;
 			const profile = await this.profileService.createProfile(+userId);
 
 			res.send({
@@ -37,12 +34,7 @@ export class ProfileController {
 				profile,
 			});
 		} catch (e) {
-			if (e instanceof Error) {
-				res.status(403).send({
-					message: "Forbidden",
-					error: e.message,
-				});
-			}
+			this.handleError(500, "Failed to Create Profile", res);
 		}
 	}
 	async editProfileImage(req: Request, res: Response) {
@@ -59,12 +51,7 @@ export class ProfileController {
 				profile,
 			});
 		} catch (e) {
-			if (e instanceof Error) {
-				res.status(403).send({
-					message: "Forbidden",
-					error: e.message,
-				});
-			}
+			this.handleError(500, "Failed to Update Profile Image", res);
 		}
 	}
 }

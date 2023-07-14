@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
 import { NoteService } from "./note.service";
+import { Controller } from "../common/common.service";
 
-export class NoteController {
-	constructor(private readonly noteService: NoteService) {}
+export class NoteController extends Controller {
+	constructor(private readonly noteService: NoteService) {
+		super();
+	}
 	async create(req: Request, res: Response) {
 		try {
 			const file = req.file;
@@ -19,12 +22,7 @@ export class NoteController {
 				note: newNote,
 			});
 		} catch (err) {
-			if (err instanceof Error) {
-				res.status(403).send({
-					message: "Forbidden",
-					error: err.message,
-				});
-			}
+			this.handleError(500, "Failed to Create Note", res);
 		}
 	}
 	async getAll(req: Request, res: Response) {
@@ -36,12 +34,7 @@ export class NoteController {
 				notes,
 			});
 		} catch (err) {
-			if (err instanceof Error) {
-				res.status(403).send({
-					message: "Forbidden",
-					error: err.message,
-				});
-			}
+			this.handleError(404, "Notes not found", res);
 		}
 	}
 	async getById(req: Request, res: Response) {
@@ -80,12 +73,7 @@ export class NoteController {
 				note: newNote,
 			});
 		} catch (err) {
-			if (err instanceof Error) {
-				res.status(403).send({
-					message: "Forbidden",
-					error: err.message,
-				});
-			}
+			this.handleError(500, "Failed to Update Note", res);
 		}
 	}
 	async remove(req: Request, res: Response) {
@@ -98,12 +86,7 @@ export class NoteController {
 				note: deletedNote,
 			});
 		} catch (err) {
-			if (err instanceof Error) {
-				res.status(403).send({
-					message: "Forbidden",
-					error: err.message,
-				});
-			}
+			this.handleError(500, "Failed to Delete Note", res);
 		}
 	}
 }

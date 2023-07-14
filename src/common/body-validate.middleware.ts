@@ -12,7 +12,7 @@ export function bodyValidate(scheme: Joi.Schema): MiddlewareFunction {
 		const { error } = scheme.validate(req.body, { abortEarly: false });
 		if (error) {
 			res.status(400).send({
-				message: error.name,
+				message: 'Bad Request',
 				error: error.message,
 			});
 			return;
