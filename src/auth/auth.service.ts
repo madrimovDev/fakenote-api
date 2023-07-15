@@ -71,12 +71,8 @@ export class AuthService {
 		});
 	}
 	verifyAccessToken(token: string): User {
-		try {
-			if (!ACCESS_SECRET) throw new Error("Secret Key not found");
-			return verify(token, ACCESS_SECRET) as User;
-		} catch (e) {
-			throw new Error("Access Token not valid!");
-		}
+		if (!ACCESS_SECRET) throw new Error("Secret Key not found");
+		return verify(token, ACCESS_SECRET) as User;
 	}
 	verifyRefreshToken(token: string): User {
 		try {

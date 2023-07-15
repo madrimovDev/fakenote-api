@@ -11,19 +11,25 @@ type MiddlewareFunction = (
 export class AuthMiddleware {
 	static authVerify(authService: AuthService): MiddlewareFunction {
 		return (req, res, next) => {
-			const token = req.headers.authorization;
-			if (!token) {
+			try {
+				const token = req.headers.authorization;
+				if (!token) {
+					res.status(401).send({
+						message: "Access Token not provided",
+					});
+					return;
+				}
+				const user = authService.verifyAccessToken(token);
+
+				res.locals = {
+					user,
+				};
+				next();
+			} catch (e) {
 				res.status(401).send({
 					message: "Access Token not provided",
 				});
-				return;
 			}
-			const user = authService.verifyAccessToken(token);
-
-			res.locals = {
-				user,
-			};
-			next();
 		};
 	}
 }
